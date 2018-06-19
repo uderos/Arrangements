@@ -26,6 +26,10 @@ private:
 		const std::vector<std::string> & shuffle_list);
 
 
+	std::vector<std::string> generate_shuffles(
+		const bool circular_table,
+		const int num_guests);
+
 	void generate_shuffles(
 		const bool circular_table,
 		const std::string & names,

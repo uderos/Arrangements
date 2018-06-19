@@ -18,30 +18,16 @@ Arrangements::Arrangements(std::string thenames)
 
 std::vector<std::string> Arrangements::panel_shuffles(int n)
 {
-	// TODO: be sure n < m_names.size()
 	const bool circular_table = false;
-	const std::string names = m_names.substr(0, n);
-	const int guest_idx = 0;
-	std::string shuffle(n, EMPTY_SEAT);
-	std::vector<std::string> shuffle_list;
 
-	generate_shuffles(circular_table, names, guest_idx, shuffle, shuffle_list);
-
-	return shuffle_list;
+	return generate_shuffles(circular_table, n);
 }
 
 std::vector<std::string> Arrangements::dinner_shuffles(int n)
 {
-	// TODO: be sure n < m_names.size()
 	const bool circular_table = true;
-	const std::string names = m_names.substr(0, n);
-	const int guest_idx = 0;
-	std::string shuffle(n, EMPTY_SEAT);
-	std::vector<std::string> shuffle_list;
 
-	generate_shuffles(circular_table, names, guest_idx, shuffle, shuffle_list);
-
-	return shuffle_list;
+	return generate_shuffles(circular_table, n);
 }
 
 double Arrangements::panel_count(int n)
@@ -92,7 +78,23 @@ bool Arrangements::is_present(
 	return (it != shuffle_list.end());
 }
 
+std::vector<std::string> Arrangements::generate_shuffles(
+	const bool circular_table,
+	const int num_guests)
+{
+	std::vector<std::string> shuffle_list;
 
+	if (num_guests < m_names.size())
+	{
+		const std::string names = m_names.substr(0, num_guests);
+		const int guest_idx = 0;
+		std::string shuffle(num_guests, EMPTY_SEAT);
+
+		generate_shuffles(circular_table, names, guest_idx, shuffle, shuffle_list);
+	}
+
+	return shuffle_list;
+}
 
 void Arrangements::generate_shuffles(
 	const bool circular_table,
