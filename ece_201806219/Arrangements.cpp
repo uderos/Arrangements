@@ -85,8 +85,8 @@ int Arrangements::calculate_right_index(
 }
 
 bool Arrangements::is_present(
-	std::string & shuffle,
-	std::vector<std::string> & shuffle_list)
+	const std::string & shuffle,
+	const std::vector<std::string> & shuffle_list)
 {
 	const auto it = std::find(shuffle_list.begin(), shuffle_list.end(), shuffle);
 	return (it != shuffle_list.end());

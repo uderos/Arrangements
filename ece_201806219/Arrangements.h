@@ -22,8 +22,8 @@ private:
 	int calculate_right_index(const bool circular_table, const int idx, const int n) const;
 
 	bool is_present(
-		std::string & shuffle,
-		std::vector<std::string> & shuffle_list);
+		const std::string & shuffle,
+		const std::vector<std::string> & shuffle_list);
 
 
 	void generate_shuffles(
