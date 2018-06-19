@@ -15,6 +15,7 @@ public:
 	double dinner_count(int n);
 
 private:
+
 	std::string m_names;
 
 	void generate_panel_shuffles(
@@ -29,7 +30,14 @@ private:
 		std::string & shuffle,
 		std::vector<std::string> & shuffle_list);
 
-	int calculate_left_index(const int idx, const int n) const;
-	int calculate_right_index(const int idx, const int n) const;
+	void generate_shuffles(
+		const bool circular_table,
+		const std::string & names,
+		const int guest_idx,
+		std::string & shuffle,
+		std::vector<std::string> & shuffle_list);
+
+	int calculate_left_index(const bool circular_table, const int idx, const int n) const;
+	int calculate_right_index(const bool circular_table, const int idx, const int n) const;
 };
 
