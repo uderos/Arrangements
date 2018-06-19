@@ -56,60 +56,6 @@ double Arrangements::dinner_count(int n)
 	return counter;
 }
 
-void Arrangements::generate_panel_shuffles(
-	const std::string & names,
-	const int guest_idx,
-	std::string & shuffle,
-	std::vector<std::string> & shuffle_list)
-{
-	if (guest_idx == names.size())
-	{
-		std::cout << __FUNCTION__ 
-			<< " i=" << guest_idx
-			<< " s=" << shuffle
-			<< " ADDING " << shuffle << std::endl;
-		shuffle_list.push_back(shuffle);
-		return;
-	}
-
-	// The guest does not move
-	if (shuffle[guest_idx] == EMPTY_SEAT)
-	{
-		std::cout << __FUNCTION__
-			<< " i=" << guest_idx
-			<< " s=" << shuffle
-			<< " stays " << std::endl;
-		shuffle[guest_idx] = names[guest_idx];
-		generate_panel_shuffles(names, 1 + guest_idx, shuffle, shuffle_list);
-		shuffle[guest_idx] = EMPTY_SEAT;
-	}
-
-	// The guest moves left
-	if ((guest_idx > 0) && (shuffle[guest_idx - 1] == EMPTY_SEAT))
-	{
-		std::cout << __FUNCTION__
-			<< " i=" << guest_idx
-			<< " s=" << shuffle
-			<< " left move " << std::endl;
-		shuffle[guest_idx - 1] = names[guest_idx];
-		generate_panel_shuffles(names, 1 + guest_idx, shuffle, shuffle_list);
-		shuffle[guest_idx - 1] = EMPTY_SEAT;
-	}
-
-	// The guest moves right
-	if ((guest_idx < names.size() - 1) && (shuffle[guest_idx + 1] == EMPTY_SEAT))
-	{
-		std::cout << __FUNCTION__
-			<< " i=" << guest_idx
-			<< " s=" << shuffle
-			<< " right move " << std::endl;
-		shuffle[guest_idx + 1] = names[guest_idx];
-		generate_panel_shuffles(names, 1 + guest_idx, shuffle, shuffle_list);
-		shuffle[guest_idx + 1] = EMPTY_SEAT;
-	}
-
-}
-
 int Arrangements::calculate_left_index(
 	const bool circular_table, 
 	const int idx, 
@@ -136,65 +82,17 @@ int Arrangements::calculate_right_index(
 		right_idx -= n;
 
 	return right_idx;
-
 }
 
-
-void Arrangements::generate_dinner_shuffles(
-	const std::string & names,
-	const int guest_idx,
+bool Arrangements::is_present(
 	std::string & shuffle,
 	std::vector<std::string> & shuffle_list)
 {
-	const bool circular_table = true;
-	if (guest_idx == names.size())
-	{
-		std::cout << __FUNCTION__
-			<< " i=" << guest_idx
-			<< " s=" << shuffle
-			<< " ADDING " << shuffle << std::endl;
-		shuffle_list.push_back(shuffle);
-		return;
-	}
-
-	// The guest does not move
-	if (shuffle[guest_idx] == EMPTY_SEAT)
-	{
-		std::cout << __FUNCTION__
-			<< " i=" << guest_idx
-			<< " s=" << shuffle
-			<< ' ' << names[guest_idx] << " stays " << std::endl;
-		shuffle[guest_idx] = names[guest_idx];
-		generate_dinner_shuffles(names, 1 + guest_idx, shuffle, shuffle_list);
-		shuffle[guest_idx] = EMPTY_SEAT;
-	}
-
-	// The guest moves left
-	const int left_idx = calculate_left_index(circular_table, guest_idx, names.size());
-	if (shuffle[left_idx] == EMPTY_SEAT)
-	{
-		std::cout << __FUNCTION__
-			<< " i=" << guest_idx
-			<< " s=" << shuffle
-			<< ' ' << names[guest_idx] << " moves left to " << left_idx << std::endl;
-		shuffle[left_idx] = names[guest_idx];
-		generate_dinner_shuffles(names, 1 + guest_idx, shuffle, shuffle_list);
-		shuffle[left_idx] = EMPTY_SEAT;
-	}
-
-	// The guest moves right
-	const int right_idx = calculate_right_index(circular_table, guest_idx, names.size());
-	if (shuffle[right_idx] == EMPTY_SEAT)
-	{
-		std::cout << __FUNCTION__
-			<< " i=" << guest_idx
-			<< " s=" << shuffle
-			<< ' ' << names[guest_idx] << " moves right to " << right_idx << std::endl;
-		shuffle[right_idx] = names[guest_idx];
-		generate_dinner_shuffles(names, 1 + guest_idx, shuffle, shuffle_list);
-		shuffle[right_idx] = EMPTY_SEAT;
-	}
+	const auto it = std::find(shuffle_list.begin(), shuffle_list.end(), shuffle);
+	return (it != shuffle_list.end());
 }
+
+
 
 void Arrangements::generate_shuffles(
 	const bool circular_table,
@@ -205,11 +103,14 @@ void Arrangements::generate_shuffles(
 {
 	if (guest_idx == names.size())
 	{
-		std::cout << __FUNCTION__
-			<< " i=" << guest_idx
-			<< " s=" << shuffle
-			<< " ADDING " << shuffle << std::endl;
-		shuffle_list.push_back(shuffle);
+		if (!is_present(shuffle, shuffle_list))
+		{
+			std::cout << __FUNCTION__
+				<< " i=" << guest_idx
+				<< " s=" << shuffle
+				<< " ADDING " << shuffle << std::endl;
+			shuffle_list.push_back(shuffle);
+		}
 		return;
 	}
 

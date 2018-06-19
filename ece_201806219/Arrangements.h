@@ -18,17 +18,13 @@ private:
 
 	std::string m_names;
 
-	void generate_panel_shuffles(
-		const std::string & names,
-		const int guest_idx,
+	int calculate_left_index(const bool circular_table, const int idx, const int n) const;
+	int calculate_right_index(const bool circular_table, const int idx, const int n) const;
+
+	bool is_present(
 		std::string & shuffle,
 		std::vector<std::string> & shuffle_list);
 
-	void generate_dinner_shuffles(
-		const std::string & names,
-		const int guest_idx,
-		std::string & shuffle,
-		std::vector<std::string> & shuffle_list);
 
 	void generate_shuffles(
 		const bool circular_table,
@@ -36,8 +32,5 @@ private:
 		const int guest_idx,
 		std::string & shuffle,
 		std::vector<std::string> & shuffle_list);
-
-	int calculate_left_index(const bool circular_table, const int idx, const int n) const;
-	int calculate_right_index(const bool circular_table, const int idx, const int n) const;
 };
 
