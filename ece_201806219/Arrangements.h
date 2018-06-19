@@ -1,4 +1,5 @@
-#pragma once
+#ifndef  ARRANGEMENTS_H
+#define  ARRANGEMENTS_H
 
 class Arrangements {
 public:
@@ -15,6 +16,7 @@ public:
 	double dinner_count(int n);
 
 private:
+
 
 	std::string m_names;
 
@@ -36,5 +38,7 @@ private:
 		const int guest_idx,
 		std::string & shuffle,
 		std::vector<std::string> & shuffle_list);
+
 };
+#endif  // ARRANGEMENTS_H
 
